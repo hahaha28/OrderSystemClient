@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceCreator {
 
-    const val BASE_URL = "http://8.129.24.81:5001"
+    const val BASE_URL = "http://inaction.fun:22222"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(CookieInterceptor())

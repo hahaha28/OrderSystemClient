@@ -3,6 +3,7 @@ package `fun`.inaction.ordersystemclient.entry
 import `fun`.inaction.ordersystemclient.MainActivity
 import `fun`.inaction.ordersystemclient.databinding.ActivityScanRestaurantIdBinding
 import `fun`.inaction.ordersystemclient.util.UserBaseUtil
+import `fun`.inaction.ordersystemclient.util.logi
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,8 @@ import com.uuzuche.lib_zxing.activity.CodeUtils
 
 
 class ScanRestaurantIdActivity : AppCompatActivity() {
+
+    private val TAG = "ScanRestaurantIdActivity"
 
     private val binding by viewbind<ActivityScanRestaurantIdBinding>()
 
@@ -53,11 +56,12 @@ class ScanRestaurantIdActivity : AppCompatActivity() {
 
                     if (bundle.getInt(CodeUtils.RESULT_TYPE) === CodeUtils.RESULT_SUCCESS) {
                         val result = bundle.getString(CodeUtils.RESULT_STRING)
-                        val restaurantID = result?.substringAfter("restaurantID:")
-                        if (restaurantID == null || restaurantID.equals("")) {
+                        logi(TAG,"扫码结果:${result}")
+                        if (result == null || !result.startsWith("restaurantID:") ) {
                             MessageDialog.show(this, "提示", "二维码错误！")
                         } else {
                             // 成功
+                            val restaurantID = result.substringAfter("restaurantID:")
                             Log.e("tag", "扫描二维码成功：restaurantID=${restaurantID}")
                             UserBaseUtil.setRestaurantID(restaurantID)
                             val intent = Intent(this, MainActivity::class.java)
